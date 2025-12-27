@@ -85,6 +85,10 @@ jobs:
             --zone us-central1-a \
             --project ${PROJECT_ID}
 
+      - name: Enable GKE auth plugin
+        if: env.DEPLOY_TARGET == 'gke'
+        run: echo "USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
+
       - name: Deploy to GKE
         if: env.DEPLOY_TARGET == 'gke'
         run: |
