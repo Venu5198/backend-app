@@ -20,7 +20,7 @@ env:
   REGION: us-central1
   REPOSITORY: backend-repo
   IMAGE_NAME: backend-app
-  DEPLOY_TARGET: cloudrun
+  DEPLOY_TARGET: gke
 
 jobs:
   build-test-push-deploy:
