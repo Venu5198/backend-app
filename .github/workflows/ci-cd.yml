@@ -63,7 +63,7 @@ jobs:
             --image ${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}:${GITHUB_SHA} \
             --region ${REGION} \
             --platform managed \
-            --service-account cloudrun-runtime-sa@${PROJECT_ID}.iam.gserviceaccount.com \
+            --service-account backend-sa@${PROJECT_ID}.iam.gserviceaccount.com
             --allow-unauthenticated
 
       # -------- GKE path --------
