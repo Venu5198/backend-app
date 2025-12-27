@@ -20,7 +20,7 @@ env:
   REGION: us-central1
   REPOSITORY: backend-repo
   IMAGE_NAME: backend-app
-  DEPLOY_TARGET: ${{ github.event.inputs.deploy_target || 'cloudrun' }}
+  DEPLOY_TARGET: cloudrun
 
 jobs:
   build-test-push-deploy:

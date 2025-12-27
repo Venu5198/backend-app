@@ -5,6 +5,12 @@ from app.health import router as health_router
 app = FastAPI()
 app.include_router(health_router)
 
+
+@app.get("/health")
+def health():
+    return {"status": "ok", "version": "v2"}
+
+
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 8080))
