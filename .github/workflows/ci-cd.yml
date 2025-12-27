@@ -4,12 +4,23 @@ on:
   push:
     branches: ["main"]
 
+  workflow_dispatch:
+    inputs:
+      deploy_target:
+        description: "Deployment target"
+        required: true
+        default: cloudrun
+        type: choice
+        options:
+          - cloudrun
+          - gke
+
 env:
   PROJECT_ID: my-project-95-480908
   REGION: us-central1
   REPOSITORY: backend-repo
   IMAGE_NAME: backend-app
-  DEPLOY_TARGET: cloudrun   # change to gke when required
+  DEPLOY_TARGET: ${{ github.event.inputs.deploy_target || 'cloudrun' }}
 
 jobs:
   build-test-push-deploy:
