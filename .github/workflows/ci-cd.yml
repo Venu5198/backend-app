@@ -78,6 +78,12 @@ jobs:
             --allow-unauthenticated
 
       # -------- GKE path --------
+      - name: Install GKE auth plugin
+        if: env.DEPLOY_TARGET == 'gke'
+        run: |
+          gcloud components install gke-gcloud-auth-plugin --quiet
+          echo "USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
+
       - name: Get GKE credentials
         if: env.DEPLOY_TARGET == 'gke'
         run: |
@@ -85,12 +91,9 @@ jobs:
             --zone us-central1-a \
             --project ${PROJECT_ID}
 
-      - name: Enable GKE auth plugin
-        if: env.DEPLOY_TARGET == 'gke'
-        run: echo "USE_GKE_GCLOUD_AUTH_PLUGIN=True" >> $GITHUB_ENV
-
       - name: Deploy to GKE
         if: env.DEPLOY_TARGET == 'gke'
         run: |
           kubectl set image deployment/backend \
             backend=${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}:${GITHUB_SHA}
+
