@@ -20,7 +20,7 @@ env:
   REGION: us-central1
   REPOSITORY: backend-repo
   IMAGE_NAME: backend-app
-  DEPLOY_TARGET: gke
+  DEPLOY_TARGET: ${{ github.event.inputs.deploy_target || 'cloudrun' }}
 
 jobs:
   build-test-push-deploy:
@@ -71,18 +71,18 @@ jobs:
         if: env.DEPLOY_TARGET == 'cloudrun'
         run: |
           gcloud run deploy backend-service \
-            --image "${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}:${GITHUB_SHA}" \
-            --region "${REGION}" \
+            --image ${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}:${GITHUB_SHA} \
+            --region ${REGION} \
             --platform managed \
-            --service-account "backend-sa@${PROJECT_ID}.iam.gserviceaccount.com" \
+            --service-account backend-sa@${PROJECT_ID}.iam.gserviceaccount.com \
             --allow-unauthenticated
 
       # -------- GKE path --------
       - name: Get GKE credentials
         if: env.DEPLOY_TARGET == 'gke'
         run: |
-          gcloud container clusters get-credentials my-gke-cluster \
-            --region ${REGION} \
+          gcloud container clusters get-credentials backend-gke \
+            --zone us-central1-a \
             --project ${PROJECT_ID}
 
       - name: Deploy to GKE
