@@ -59,12 +59,12 @@ jobs:
       - name: Deploy to Cloud Run
         if: env.DEPLOY_TARGET == 'cloudrun'
         run: |
-          gcloud run deploy backend-service \
-            --image ${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}:${GITHUB_SHA} \
-            --region ${REGION} \
-            --platform managed \
-            --service-account backend-sa@${PROJECT_ID}.iam.gserviceaccount.com
-            --allow-unauthenticated
+          gcloud run deploy backend-service
+          --image ${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}:${GITHUB_SHA}
+          --region ${REGION}
+          --platform managed
+          --service-account backend-sa@${PROJECT_ID}.iam.gserviceaccount.com
+          --allow-unauthenticated
 
       # -------- GKE path --------
       - name: Get GKE credentials
